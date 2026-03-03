@@ -146,7 +146,7 @@ def run():
                 # Send all existing unseen on first startup
                 for uid in uids:
                     payload = parse_email(mail, uid)
-                    logger.info("Sending existing unseen email: %n", payload['subject'])
+                    logger.info("Sending existing unseen email: %s", payload['subject'])
                     send_to_webhook(payload)
                     processed_uids.add(uid)
             elif first_connect:
