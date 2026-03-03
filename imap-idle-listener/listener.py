@@ -46,13 +46,13 @@ def connect():
 
 # --- Fetch unseen UIDs ---
 def fetch_unseen_uids(mail):
-    _, data = mail.search(None, "UNSEEN")
+    _, data = mail.uid("search", None, "UNSEEN")
     uids = set(data[0].split())
     return uids
 
 # --- Parse email ---
 def parse_email(mail, uid):
-    _, data = mail.fetch(uid, "(RFC822)")
+    _, data = mail.uid("fetch", uid, "(RFC822)")
     raw = data[0][1]
     msg = email.message_from_bytes(raw)
 
