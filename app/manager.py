@@ -31,8 +31,9 @@ class EmailManager:
 
                 # If PAST_UNSEEN set to True, and first connection, forward all unseen email
                 if settings.PAST_UNSEEN and self.first_connect:
-                    logger.info("Unseen emails at startup: %s. Forwarding.", len(unseens))
-                    self.manage_unseens(unseens)
+                    if len(unseens):
+                        logger.info("Unseen emails at startup: %s.", len(unseens))
+                        self.manage_unseens(unseens)
 
                 # If PAST_UNSEEN set to False, and first connection, register all unseen email to the database
                 elif self.first_connect:
