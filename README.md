@@ -22,8 +22,8 @@ Every new email triggers a POST to your webhook with this JSON body:
   "from": "billing@example.com",
   "to": "filter@mydomain.com",
   "date": "2025-01-15T14:32:00",
-  "body_text": "Please find your invoice...",
-  "body_html": "<p>Please find your invoice...</p>",
+  "text_body": "Please find your invoice...",
+  "html_body": "<p>Please find your invoice...</p>",
   "attachments": [
     {
       "filename": "invoice.pdf",
