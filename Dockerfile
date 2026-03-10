@@ -5,6 +5,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY listener.py .
+COPY app/ ./app/
 
-CMD ["python", "-u", "listener.py"]
+ENV PYTHONPATH=/app
+
+VOLUME /app/data
+
+CMD ["python", "-u", "app/main.py"]

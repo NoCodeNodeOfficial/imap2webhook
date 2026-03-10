@@ -6,6 +6,11 @@ A lightweight Docker service that listens to an IMAP mailbox and forwards new em
 
 ---
 
+## Behavior
+
+- Email UIDs are recorded on a local SQLite database
+- A volume need to be set to store the database file. (otherwise an anonymous volume will be created)
+
 ## Webhook Payload
 
 Every new email triggers a POST to your webhook with this JSON body:
@@ -33,12 +38,14 @@ Every new email triggers a POST to your webhook with this JSON body:
 | Variable      | Required | Default | Description                                         |
 |---------------|----------|---------|-----------------------------------------------------|
 | `IMAP_HOST`   | yes      | —       | IMAP server hostname                                |
+| `IMAP_PORT`   | no       | `993`   | IMAP server port                                    |
 | `IMAP_USER`   | yes      | —       | Email address / login                               |
 | `IMAP_PWD`    | yes      | —       | Account password                                    |
 | `WEBHOOK`     | yes      | —       | URL to POST new emails to                           |
 | `MAILBOX`     | no       | `INBOX` | Mailbox/folder to watch                             |
 | `PAST_UNSEEN` | no       | `false` | Process unseen emails already in mailbox on startup |
 | `ATTACH`      | no       | `true`  | Include attachments as base64 in payload            |
+| `FLUSH_DB`    | no       | `false` | If true, flush database at startup                  |
 | `LOG_LEVEL`   | no       | `INFO`  | Set the log level                                   |
 
 ## Usage
@@ -48,6 +55,9 @@ services:
   imap2webhook:
     image: nocodenode/imap2webhook:latest
     restart: unless-stopped
+    container_name: imap2webhook
+    volumes:
+      - imap_data:/app/data
     environment:
       IMAP_HOST: mail.emailhost.com
       IMAP_USER: you@yourdomain.com
@@ -57,6 +67,10 @@ services:
       PAST_UNSEEN: false
       ATTACH: true
       LOG_LEVEL: INFO
+      FLUSH_DB: false
+volumes:
+  imap_data:
+
 ```
 
 ```bash
